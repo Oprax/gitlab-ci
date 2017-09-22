@@ -1,0 +1,29 @@
+FROM php:7.1-fpm
+
+
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends \
+        git \
+        curl \
+        zip \
+        unzip \
+        libmemcached-dev \
+        libz-dev \
+        libzip-dev \
+        libpq-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libmcrypt-dev
+
+
+
+RUN pecl install zip && docker-php-ext-enable zip
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+RUN docker-php-ext-install mcrypt
+
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
